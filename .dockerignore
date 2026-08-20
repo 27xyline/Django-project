@@ -1,0 +1,30 @@
+# Виртуальное окружение и Python-кэш
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Секреты и локальные настройки
+.env
+.env.*
+*.sqlite3
+
+# Git и IDE
+.git/
+.gitignore
+.vscode/
+.idea/
+
+# Тесты, логи, временные файлы
+.coverage
+htmlcov/
+.pytest_cache/
+*.log
+*.tmp
+
+# Собранная статика и пользовательские файлы
+staticfiles/
+media/
+
+# Системные файлы
+.DS_Store
