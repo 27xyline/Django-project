@@ -5,5 +5,5 @@ from store.serializers import BooksSerializer
 
 
 class BookViewSet(ModelViewSet):
-    queryset = Book.objects.all()
+    queryset = Book.objects.order_by("id")
     serializer_class = BooksSerializer
