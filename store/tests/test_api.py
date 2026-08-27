@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -7,6 +8,10 @@ from store.models import Book
 
 class BooksApiTestCase(APITestCase):
     def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username="api-user", password="test-password"
+        )
+        self.client.force_authenticate(user=self.user)
         self.book_1 = Book.objects.create(
             name="Dune", price="1125.00", author="Frank Herbert"
         )
@@ -130,3 +135,10 @@ class BooksApiTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Book.objects.filter(pk=self.book_1.id).exists())
+
+
+class UnauthenticatedBooksApiTestCase(APITestCase):
+    def test_list_is_forbidden_for_anonymous_user(self):
+        response = self.client.get(reverse("book-list"))
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
