@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7fb">
+    <title>Вход · Книги</title>
+    <style>
+      :root { --ink: #19233d; --muted: #697386; --line: #e4e8f0; --accent: #4f46e5; }
+      * { box-sizing: border-box; }
+      body { display: grid; min-width: 320px; min-height: 100vh; margin: 0; place-items: center; color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f7fb; }
+      .page { width: min(100% - 2rem, 26rem); }
+      .story { margin-bottom: 1.75rem; text-align: center; }
+      .brand { color: var(--accent); font-size: 1.35rem; font-weight: 750; letter-spacing: -.03em; text-decoration: none; }
+      .brand-mark, .quote, .books { display: none; }
+      .auth-area { padding: 2rem; border: 1px solid var(--line); border-radius: 1rem; background: #fff; box-shadow: 0 1rem 3rem rgba(25,35,61,.08); }
+      .auth-card { width: 100%; }
+      h1 { margin: 0; font-size: 1.65rem; line-height: 1.2; letter-spacing: -.035em; }
+      .lead { margin: .65rem 0 1.75rem; color: var(--muted); font-size: .95rem; line-height: 1.5; } form { margin: 0; }
+      .google-button { display: flex; align-items: center; justify-content: center; gap: .75rem; width: 100%; min-height: 3.25rem; padding: .75rem 1rem; border: 1px solid #d8dde8; border-radius: .65rem; color: var(--ink); background: #fff; cursor: pointer; font: inherit; font-size: .95rem; font-weight: 650; transition: border-color .18s ease, box-shadow .18s ease; }
+      .google-button:hover { border-color: #b9c2d3; box-shadow: 0 .3rem .9rem rgba(25,35,61,.1); } .google-button:focus-visible { outline: 3px solid rgba(79,70,229,.3); outline-offset: 3px; }
+      .google-icon { width: 1.25rem; height: 1.25rem; flex: 0 0 auto; }
+      .note { margin: 1rem 0 0; color: var(--muted); font-size: .78rem; line-height: 1.5; text-align: center; }
+      @media (max-width: 420px) { .auth-area { padding: 1.5rem; } }
+      @media (prefers-reduced-motion: reduce) { .google-button { transition: none; } }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="story"><a class="brand" href="/" aria-label="Книги — на главную">Книги</a></header>
+      <section class="auth-area" aria-labelledby="login-title">
+        <div class="auth-card">
+          <h1 id="login-title">Добро пожаловать</h1>
+          <p class="lead">Войдите, чтобы продолжить.</p>
+          <form method="post" action="{% url 'social:begin' 'google-oauth2' %}">
+            {% csrf_token %}
+            <button class="google-button" type="submit"><svg class="google-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.35 12.23c0-.71-.06-1.39-.18-2.05H12v3.88h5.24a4.48 4.48 0 0 1-1.94 2.94v2.52h3.15c1.84-1.69 2.9-4.19 2.9-7.29Z"/><path fill="#34A853" d="M12 21.75c2.63 0 4.84-.87 6.45-2.35L15.3 17a5.82 5.82 0 0 1-8.67-3.06H3.37v2.6A9.75 9.75 0 0 0 12 21.75Z"/><path fill="#FBBC05" d="M6.63 13.94a5.86 5.86 0 0 1 0-3.75v-2.6H3.37a9.75 9.75 0 0 0 0 8.95l3.26-2.6Z"/><path fill="#EA4335" d="M12 6.13c1.55 0 2.94.53 4.04 1.57l3.03-3.03C16.83 2.58 14.62 1.75 12 1.75a9.75 9.75 0 0 0-8.63 5.84l3.26 2.6A5.82 5.82 0 0 1 12 6.13Z"/></svg>Войти через Google</button>
+          </form>
+          <p class="note">Мы используем Google только для безопасного входа в аккаунт.</p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
