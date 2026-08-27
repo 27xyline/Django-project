@@ -36,6 +36,43 @@ class BooksApiTestCase(APITestCase):
             ],
         )
 
+    def test_filter_books_by_price(self):
+        response = self.client.get(reverse("book-list"), {"price": "1125.00"})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual([book["id"] for book in response.data], [self.book_1.id])
+        self.assertEqual(response.data[0]["price"], "1125.00")
+
+    def test_search_books_by_name_and_author(self):
+        test_cases = [
+            ("dune", self.book_1.id),
+            ("asimov", self.book_2.id),
+        ]
+
+        for search_query, expected_book_id in test_cases:
+            with self.subTest(search_query=search_query):
+                response = self.client.get(
+                    reverse("book-list"), {"search": search_query}
+                )
+
+                self.assertEqual(response.status_code, status.HTTP_200_OK)
+                self.assertEqual(
+                    [book["id"] for book in response.data], [expected_book_id]
+                )
+
+    def test_order_books_by_price_and_author(self):
+        for ordering in ["-price", "author"]:
+            with self.subTest(ordering=ordering):
+                response = self.client.get(reverse("book-list"), {"ordering": ordering})
+
+                self.assertEqual(response.status_code, status.HTTP_200_OK)
+                self.assertEqual(
+                    [book["id"] for book in response.data],
+                    [self.book_2.id, self.book_1.id]
+                    if ordering == "-price"
+                    else [self.book_1.id, self.book_2.id],
+                )
+
     def test_create_book(self):
         response = self.client.post(
             reverse("book-list"),
